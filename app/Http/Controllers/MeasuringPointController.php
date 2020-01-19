@@ -129,8 +129,12 @@ class MeasuringPointController extends Controller
             ]);
             $updateData['created_by'] = auth()->id();
             $updateData['updated_by'] = auth()->id();
-            $updateData['has_abnormality'] = $request->has('has_abnormality') ? 1 : 0;
-            MeasuringPoint::whereId($id)->update($updateData);
+
+            $hasAbnormalityRequest = $request->has('has_abnormality') ? 1 : 0;
+            $updateData['has_abnormality'] = $hasAbnormalityRequest;
+            $measuringPoint = MeasuringPoint::findOrFail($id);
+            $previousAbnormalityState = $measuringPoint->has_abnormality;
+            $measuringPoint->update($updateData);
 
             $annotation = $request->get('annotation');
             if(!empty($annotation)) {
@@ -138,6 +142,14 @@ class MeasuringPointController extends Controller
                 $annotationData['annotation'] = $annotation;
                 $annotationData['created_by'] = auth()->id();
                 AnnotationLog::create($annotationData);
+            }
+
+            if($previousAbnormalityState !== $hasAbnormalityRequest) {
+                $newAnnotation['measuring_point_id'] = $id;
+                $newAnnotation['annotation'] = 'Mudança de status da anormalidade de '
+                    . ($previousAbnormalityState ? 'true' : 'false') . ' para ' . ($hasAbnormalityRequest ? 'true' : 'false') . '.';
+                $newAnnotation['created_by'] = auth()->id();
+                AnnotationLog::create($newAnnotation);
             }
 
             return redirect()->route('substation.show', $request->get('substation_id'))->with('success', 'Ponto de medição atualizado com sucesso');
