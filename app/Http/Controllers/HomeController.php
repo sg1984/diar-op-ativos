@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Regional;
+use App\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
+    /**
+     * @var FileService
+     */
+    private $fileService;
+
     /**
      * Create a new controller instance.
      *
@@ -15,6 +23,7 @@ class HomeController extends Controller
     public function __construct()
     {
 //        $this->middleware('guest');
+        $this->fileService = new FileService();
     }
 
     /**
@@ -28,5 +37,15 @@ class HomeController extends Controller
             ->get();
 
         return view('home', compact('regionals'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getXml()
+    {
+        Storage::disk('local')->put('arvore.xml', $this->fileService->getAllDataAsXml());
+
+        return Storage::get('arvore.xml');
     }
 }

@@ -6,7 +6,9 @@ use App\DTOs\MeasuringPointDTO;
 use App\DTOs\RegionalCollectionDTO;
 use App\DTOs\RegionalDTO;
 use App\DTOs\SubstationDTO;
+use App\Regional;
 use Illuminate\Http\UploadedFile;
+use Spatie\ArrayToXml\ArrayToXml;
 
 class FileService
 {
@@ -93,5 +95,43 @@ class FileService
         }
 
         return $substationDTO;
+    }
+
+    public function getAllDataAsXml()
+    {
+        $regionals = Regional::with('substations.measuringPoints.annotations.user')
+            ->get();
+
+        $baseArray = [];
+        $regionalsData = [];
+        foreach ($regionals as $regional) {
+            $substations = [];
+            foreach ($regional->substations as $substation) {
+                $measuringPoints = [];
+                foreach ($substation->measuringPoints as $measuringPoint){
+                    $measuringPoints[] = [
+                        'nome' => $measuringPoint->name,
+                        'anormalidade' => $measuringPoint->has_abnormality ? 'true' : 'false',
+                        'sistema' => $measuringPoint->system,
+                    ];
+                }
+
+                $substations[] = [
+                    'nome' => $substation->name,
+                    'ponto' => $measuringPoints
+                ];
+            }
+
+            $regionalData[] = [
+                'nome' => $regional->name,
+                'subestacao' => $substations
+            ];
+            $regionalsData['regional'] = $regionalData;
+        }
+
+        $xml = new ArrayToXml($regionalsData, 'raiz');
+        $xml->setDomProperties(['formatOutput' => true]);
+
+        return $xml->toXml();
     }
 }

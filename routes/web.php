@@ -24,4 +24,5 @@ Route::resource('substation', 'SubstationController');
 Route::resource('measuring-point', 'MeasuringPointController');
 Route::post('/upload', 'FileController@upload')->name('upload');
 Route::post('/save-annotation', 'MeasuringPointController@saveAnnotation')->name('save-annotation');
+Route::get('/get-xml', 'HomeController@getXml');
 
