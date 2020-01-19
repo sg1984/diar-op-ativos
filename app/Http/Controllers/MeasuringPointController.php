@@ -146,8 +146,7 @@ class MeasuringPointController extends Controller
 
             if($previousAbnormalityState !== $hasAbnormalityRequest) {
                 $newAnnotation['measuring_point_id'] = $id;
-                $newAnnotation['annotation'] = 'Mudança de status da anormalidade de '
-                    . ($previousAbnormalityState ? 'true' : 'false') . ' para ' . ($hasAbnormalityRequest ? 'true' : 'false') . '.';
+                $newAnnotation['annotation'] = $hasAbnormalityRequest ? 'Estabelecendo anormalidade' : 'Removendo anormalidade';
                 $newAnnotation['created_by'] = auth()->id();
                 AnnotationLog::create($newAnnotation);
             }
