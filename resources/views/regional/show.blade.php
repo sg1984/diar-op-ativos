@@ -28,6 +28,8 @@
                 <td>Nome</td>
                 <td>Descrição</td>
                 <td>Pontos de medição</td>
+                <td>Última atualização</td>
+                <td>Anormalidade?</td>
                 @if(Auth::check())
                     <td class="text-center">Ações</td>
                 @endif
@@ -44,6 +46,14 @@
                     </td>
                     <td>{{$substation->description}}</td>
                     <td>{{count($substation->measuringPoints)}}</td>
+                    <td>{{$substation->lastUpdateDate()->format('Y-m-d H:i')}}</td>
+                    <td>
+                        @if($substation->hasAnyAbnormality())
+                            <a href="#" class="btn btn-danger disabled" tabindex="-1" role="button" aria-disabled="true">Com anormalidade</a>
+                        @else
+                            <a href="#" class="btn btn-success disabled" tabindex="-1" role="button" aria-disabled="true">Sem anormalidade</a>
+                        @endif
+                    </td>
                     @if(Auth::check())
                         <td class="text-center">
                             <a href="{{ route('substation.edit', $substation->id)}}" class="btn btn-primary btn-sm">Alterar</a>

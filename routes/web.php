@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return redirect()->to(route('home'));
 });
 
 Auth::routes();
@@ -22,3 +22,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('regional', 'RegionalController');
 Route::resource('substation', 'SubstationController');
 Route::resource('measuring-point', 'MeasuringPointController');
+Route::post('/upload', 'FileController@upload')->name('upload');
+

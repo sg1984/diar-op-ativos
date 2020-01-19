@@ -35,6 +35,7 @@
                 <td>Subestação</td>
                 <td>Status Anormalidade</td>
                 <td>Sistema de medição</td>
+                <td>Última atualização</td>
                 @if(Auth::check())
                     <td class="text-center">Ações</td>
                 @endif
@@ -55,6 +56,7 @@
                         @endif
                     </td>
                     <td>{{$point->system}}</td>
+                    <td>{{$point->lastUpdateDate()->format('Y-m-d H:i')}}</td>
                     @if(Auth::check())
                         <td class="text-center">
                             <a href="{{ route('measuring-point.edit', $point->id)}}" class="btn btn-primary btn-sm">Alterar</a>

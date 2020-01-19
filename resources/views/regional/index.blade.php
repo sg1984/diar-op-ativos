@@ -29,6 +29,8 @@
                 <td>Nome</td>
                 <td>Descrição</td>
                 <td>Subestações</td>
+                <td>Última atualização</td>
+                <td>Anormalidade?</td>
                 @if(Auth::check())
                     <td class="text-center">Ações</td>
                 @endif
@@ -45,6 +47,14 @@
                     </td>
                     <td>{{$regional->description}}</td>
                     <td>{{count($regional->substations)}}</td>
+                    <td>{{$regional->lastUpdateDate()->format('Y-m-d H:i')}}</td>
+                    <td>
+                        @if($regional->hasAnyAbnormality())
+                            <a href="#" class="btn btn-danger disabled" tabindex="-1" role="button" aria-disabled="true">Com anormalidade</a>
+                        @else
+                            <a href="#" class="btn btn-success disabled" tabindex="-1" role="button" aria-disabled="true">Sem anormalidade</a>
+                        @endif
+                    </td>
                     @if(Auth::check())
                         <td class="text-center">
                             <a href="{{ route('regional.edit', $regional->id)}}" class="btn btn-primary btn-sm">Alterar</a>

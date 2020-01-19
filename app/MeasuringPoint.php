@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class MeasuringPoint extends Model
@@ -21,8 +22,19 @@ class MeasuringPoint extends Model
         'updated_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function substation()
     {
         return $this->belongsTo(Substation::class);
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function lastUpdateDate(): Carbon
+    {
+        return $this->updated_at;
     }
 }
