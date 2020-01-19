@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="card push-top">
         <div class="card-header">
             Editar Ponto de Medição
@@ -44,9 +43,17 @@
                     <label for="system">Sistema de medição</label>
                     <input type="text" class="form-control" name="system" value="{{ $measuringPoint->system }}"/>
                 </div>
+                <div class="form-group">
+                    <label for="system">Nova anotação</label>
+                    <textarea class="form-control" name="annotation"></textarea>
+                </div>
                 <button type="submit" class="btn btn-primary float-right">Salvar</button>
                 <a href="{{route('substation.show', $measuringPoint->substation_id)}}" class="btn btn-outline-info float-right mr-3">Cancelar</a>
             </form>
         </div>
+    </div>
+    <hr>
+    <div class="card">
+        {{ view('annotations.show', compact('measuringPoint')) }}
     </div>
 @endsection

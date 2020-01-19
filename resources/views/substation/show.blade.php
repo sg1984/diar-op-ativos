@@ -31,11 +31,10 @@
             <tr class="table-warning">
                 <td>ID</td>
                 <td>Nome</td>
-                <td>Descrição</td>
                 <td>Subestação</td>
                 <td>Status Anormalidade</td>
-                <td>Sistema de medição</td>
                 <td>Última atualização</td>
+                <td>Anotações</td>
                 @if(Auth::check())
                     <td class="text-center">Ações</td>
                 @endif
@@ -45,8 +44,11 @@
             @foreach($substation->measuringPoints as $point)
                 <tr>
                     <td>{{$point->id}}</td>
-                    <td>{{$point->name}}</td>
-                    <td>{{$point->description}}</td>
+                    <td>
+                        <a href="{{ route('measuring-point.show', $substation->id)}}">
+                            {{$point->name}}
+                        </a>
+                    </td>
                     <td>{{$point->substation->name}}</td>
                     <td>
                         @if($point->has_abnormality)
@@ -55,8 +57,8 @@
                             <a href="#" class="btn btn-success disabled" tabindex="-1" role="button" aria-disabled="true">Sem anormalidade</a>
                         @endif
                     </td>
-                    <td>{{$point->system}}</td>
                     <td>{{$point->lastUpdateDate()->format('Y-m-d H:i')}}</td>
+                    <td>{{count($point->annotations)}}</td>
                     @if(Auth::check())
                         <td class="text-center">
                             <a href="{{ route('measuring-point.edit', $point->id)}}" class="btn btn-primary btn-sm">Alterar</a>

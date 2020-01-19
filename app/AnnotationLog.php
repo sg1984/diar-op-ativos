@@ -5,29 +5,29 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class MeasuringPoint extends Model
+class AnnotationLog extends Model
 {
     protected $fillable = [
-        'substation_id',
-        'name',
-        'description',
-        'has_abnormality',
-        'system',
+        'measuring_point_id',
+        'annotation',
         'created_by',
-        'updated_by',
     ];
     protected $casts = [
-        'has_abnormality' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
+    public function measuringPoint()
+    {
+        return $this->belongsTo(MeasuringPoint::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function substation()
+    public function user()
     {
-        return $this->belongsTo(Substation::class);
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     /**
@@ -36,10 +36,5 @@ class MeasuringPoint extends Model
     public function lastUpdateDate(): Carbon
     {
         return $this->updated_at;
-    }
-
-    public function annotations()
-    {
-        return $this->hasMany(AnnotationLog::class);
     }
 }

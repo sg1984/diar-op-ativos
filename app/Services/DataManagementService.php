@@ -19,7 +19,7 @@ class DataManagementService
     {
         try {
             DB::beginTransaction();
-            $this->clearData();
+//            $this->clearData();
             $this->saveData($regionalCollection);
             DB::commit();
 
