@@ -45,7 +45,7 @@
                 <tr>
                     <td>{{$point->id}}</td>
                     <td>
-                        <a href="{{ route('measuring-point.show', $substation->id)}}">
+                        <a href="{{ route('measuring-point.show', $point->id)}}">
                             {{$point->name}}
                         </a>
                     </td>
