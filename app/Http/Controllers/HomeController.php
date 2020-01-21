@@ -35,8 +35,10 @@ class HomeController extends Controller
     {
         $regionals = Regional::with('substations.measuringPoints')
             ->get();
+        $treeXml = str_replace('<?xml version="1.0"?>', '', $this->fileService->getAllDataAsXml());
 
-        return view('home', compact('regionals'));
+
+        return view('home', compact('treeXml'));
     }
 
     /**
