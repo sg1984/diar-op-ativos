@@ -1241,7 +1241,7 @@
 
         angulo2 += 0.005;
         camera01.position.z = 15 + 0*(Math.cos(0.75*angulo2)+Math.sin(0.75 *angulo2));
-        camera01.position.x = menor_X + (maior_X - menor_X) * 0.5 *(1 + Math.sin(0.7*angulo2));
+        camera01.position.x = menor_X + (maior_X - menor_X) * 0.5 *(1 + Math.sin(0.4*angulo2));
         camera01.position.y = 3.0 + 1*(Math.cos(1 *angulo2));
         camera01.rotation.z = 0.0*(Math.sin(1 *angulo2));
         //camera01.rotation.x = 0.05*(Math.sin(1 *angulo2));
